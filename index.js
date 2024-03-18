@@ -71,12 +71,21 @@ function mainmenu(){
 
 }
 function viewAllDepartments(){
+    db.query("SELECT id AS department_id, dept_name AS department_name FROM department_list;", function(err, res) {
+        err? console.error(err): console.table(res), mainmenu()
+    })
 
 }
 function viewAllRoles(){
+    db.query("SELECT r.id AS role_id,  r.title AS job_title,  r.salary,  d.dept_name AS department_name FROM   role_list r JOIN   department_list d ON r.department_list_id = d.id;",function(err, res){
+        err? console.error(err): console.table(res), mainmenu()
+    })
 
 }
 function viewAllEmployees(){
+    db.query("SELECT  e.id AS employee_id,  e.first_name,  e.last_name,  r.title AS job_title,  d.dept_name AS department,  r.salary,  CONCAT(m.first_name, ' ', m.last_name) AS manager_name FROM   employee_list e JOIN   role_list r ON e.role_list_id = r.id JOIN   department_list d ON r.department_list_id = d.id LEFT JOIN   employee_list m ON e.manager_id = m.id;",function(err, res){
+        err? console.error(err): console.table(res), mainmenu()
+    })
 
 }
 function addADepartment(){
